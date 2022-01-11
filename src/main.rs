@@ -6,6 +6,9 @@ use std::sync::mpsc;
 use std::thread;
 use std::time;
 
+//Modules
+mod voxels;
+
 fn main() {
     env_logger::init();
 
