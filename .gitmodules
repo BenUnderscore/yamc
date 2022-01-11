@@ -1,0 +1,3 @@
+[submodule "yamc-core"]
+	path = yamc-core
+	url = https://github.com/BenUnderscore/yamc-core.git
