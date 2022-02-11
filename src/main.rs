@@ -1,10 +1,10 @@
 //Uses
-use yamc_core::event_loop::winit;
-use yamc_core::{event_loop, render, res};
 use env_logger;
 use std::sync::mpsc;
 use std::thread;
 use std::time;
+use yamc_core::event_loop::winit;
+use yamc_core::{event_loop, render, res};
 
 //Modules
 mod voxels;
