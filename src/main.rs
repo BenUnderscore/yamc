@@ -1,8 +1,10 @@
 //Uses
-use yamc_core::{event_loop, render, res};
+use yamc_core::world::voxel::{VoxelSystem, self};
+use yamc_core::{event_loop, render, res, world};
 use yamc_core::event_loop::winit;
 use yamc_core::cgmath::One;
 use yamc_core::cgmath;
+use systems::Systems;
 use std::sync::mpsc;
 use std::thread;
 use env_logger;
@@ -10,6 +12,7 @@ use std::time;
 
 //Modules
 mod voxels;
+mod systems;
 
 fn main() {
     env_logger::init();
@@ -37,7 +40,7 @@ fn run(event_loop_proxy: event_loop::EventLoopProxy) {
         rx
     };
 
-    let mut resource_system = res::ResourceSystem::new(std::path::PathBuf::from("./res/"));
+    let mut systems = Systems::new();
 
     {
         let window_builder = winit::window::WindowBuilder::new()
@@ -46,7 +49,8 @@ fn run(event_loop_proxy: event_loop::EventLoopProxy) {
             .with_resizable(false);
 
         event_loop_proxy.create_window(window_builder).unwrap();
-        let mut renderer = render::RenderSystem::new(&event_loop_proxy, &mut resource_system);
+
+        let systems = systems::Systems::init();
 
         //The game loop
         let mut duration_behind: time::Duration = Default::default();
@@ -74,13 +78,8 @@ fn run(event_loop_proxy: event_loop::EventLoopProxy) {
                 }
             }
 
-            renderer.render(
-                render::Camera {
-                    position: cgmath::Vector3::new(0.0, 0.0, 0.0),
-                    orientation: cgmath::Euler::new(0.0, 0.0, 0.0),
-                    projection_matrix: cgmath::Matrix4::one(),
-                }
-            );
+            world.update();
+            world.render();
 
             let new_instant = time::Instant::now();
             duration_behind += new_instant - last_instant;
