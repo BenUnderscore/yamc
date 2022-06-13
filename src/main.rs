@@ -1,10 +1,12 @@
 //Uses
-use env_logger;
+use yamc_core::{event_loop, render, res};
+use yamc_core::event_loop::winit;
+use yamc_core::cgmath::One;
+use yamc_core::cgmath;
 use std::sync::mpsc;
 use std::thread;
+use env_logger;
 use std::time;
-use yamc_core::event_loop::winit;
-use yamc_core::{event_loop, render, res};
 
 //Modules
 mod voxels;
@@ -72,7 +74,13 @@ fn run(event_loop_proxy: event_loop::EventLoopProxy) {
                 }
             }
 
-            renderer.render();
+            renderer.render(
+                render::Camera {
+                    position: cgmath::Vector3::new(0.0, 0.0, 0.0),
+                    orientation: cgmath::Euler::new(0.0, 0.0, 0.0),
+                    projection_matrix: cgmath::Matrix4::one(),
+                }
+            );
 
             let new_instant = time::Instant::now();
             duration_behind += new_instant - last_instant;
