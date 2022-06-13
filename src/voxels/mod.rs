@@ -1,21 +1,21 @@
 //Uses
-use yamc_core::world::voxel::{VoxelAttributeRegistry, VoxelNameRegistry};
+use yamc_core::world::voxel::{AttributeRegistry, NameRegistry};
 
 pub struct VoxelAttributeRegistries {
     next_id: u16,
-    name_registry: VoxelNameRegistry,
+    name_registry: NameRegistry,
 }
 
 impl VoxelAttributeRegistries {
     fn new() -> VoxelAttributeRegistries {
         VoxelAttributeRegistries {
             next_id: 0,
-            name_registry: VoxelNameRegistry::new(),
+            name_registry: NameRegistry::new(),
         }
     }
 
     fn add_voxel_type(&mut self, name: &str) {
-        self.name_registry.add(name, self.next_id);
+        self.name_registry.add(name, self.next_id).unwrap();
         self.next_id += 1;
     }
 }
