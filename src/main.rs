@@ -1,9 +1,7 @@
 //Uses
-use yamc_core::world::voxel::{VoxelSystem, self};
-use yamc_core::{event_loop, render, res, world};
 use yamc_core::event_loop::winit;
-use yamc_core::cgmath::One;
-use yamc_core::cgmath;
+use yamc_core::event_loop;
+use std::path::PathBuf;
 use systems::Systems;
 use std::sync::mpsc;
 use std::thread;
@@ -28,29 +26,21 @@ fn main() {
 }
 
 fn run(event_loop_proxy: event_loop::EventLoopProxy) {
-    let device_event_rx = {
-        let (tx, rx) = mpsc::channel();
-        event_loop_proxy.register_device_event_sender(Some(tx));
-        rx
-    };
+    let device_event_rx = event_loop_proxy.create_device_event_channel();
+    let window_event_rx = event_loop_proxy.create_window_event_channel();
 
-    let window_event_rx = {
-        let (tx, rx) = mpsc::channel();
-        event_loop_proxy.register_window_event_sender(Some(tx));
-        rx
-    };
-
-    let mut systems = Systems::new();
+    let mut systems = Systems::new(
+        PathBuf::from("res/"),
+        &event_loop_proxy
+    );
 
     {
         let window_builder = winit::window::WindowBuilder::new()
-            .with_title("Yet Another (Crappy) Minecraft Clone")
+            .with_title("Yet Another Minecraft Clone")
             .with_inner_size(winit::dpi::LogicalSize::<f32>::new(1024.0, 768.0))
             .with_resizable(false);
 
         event_loop_proxy.create_window(window_builder).unwrap();
-
-        let systems = systems::Systems::init();
 
         //The game loop
         let mut duration_behind: time::Duration = Default::default();
@@ -78,8 +68,8 @@ fn run(event_loop_proxy: event_loop::EventLoopProxy) {
                 }
             }
 
-            world.update();
-            world.render();
+            systems.update();
+            systems.render();
 
             let new_instant = time::Instant::now();
             duration_behind += new_instant - last_instant;

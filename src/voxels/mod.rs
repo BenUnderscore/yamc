@@ -1,9 +1,8 @@
 //Uses
-use yamc_core::world::voxel::{VoxelSystem, AttributeRegistry, NameRegistry};
-use yamc_core::render::voxel::AppearanceAttribute;
-
+use yamc_core::world::voxel::{VoxelSystem, AttributeRegistry, AttributeRegistries, NameRegistry};
+use yamc_core::render::voxel::{AppearanceAttribute, SolidModel};
 mod voxel_uses {
-    pub use super::{VoxelSystemBuilder, AppearanceAttribute};
+    pub(super) use super::{VoxelSystemBuilder, AppearanceAttribute, SolidModel};
 }
 
 //Submodules
@@ -32,7 +31,9 @@ impl VoxelSystemBuilder {
     }
 
     pub fn create_voxel_system(self) -> VoxelSystem {
-        VoxelSystem::new(self.name_registry, self.attribute_registries)
+        let mut  attribute_registries = AttributeRegistries::new();
+        attribute_registries.add_registry(self.appearance_registry).unwrap();
+        VoxelSystem::new(self.name_registry, attribute_registries)
     }
 }
 

@@ -5,7 +5,9 @@ pub fn register(builder: &mut VoxelSystemBuilder) {
     builder.add_voxel_type(
         "dirt",
         AppearanceAttribute::Solid(
-            (122.0f / 255.0f, 74.0f / 255.0f, 15.0f / 255.0f)
+            SolidModel {
+                color: (122.0 / 255.0, 74.0 / 255.0, 15.0 / 255.0),
+            }
         )
     );
 }
