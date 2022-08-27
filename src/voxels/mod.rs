@@ -1,8 +1,8 @@
 //Uses
 use yamc_core::world::voxel::{VoxelSystem, AttributeRegistry, AttributeRegistries, NameRegistry};
-use yamc_core::render::voxel::{AppearanceAttribute, SolidModel};
+use yamc_core::render::voxel::{AppearanceAttribute, SolidColorCubeModel};
 mod voxel_uses {
-    pub(super) use super::{VoxelSystemBuilder, AppearanceAttribute, SolidModel};
+    pub(super) use super::{VoxelSystemBuilder, AppearanceAttribute, SolidColorCubeModel};
 }
 
 //Submodules
