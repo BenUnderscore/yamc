@@ -39,7 +39,8 @@ impl Systems {
         let air = Voxel { id: name_registry.find("air").unwrap(), data: 0 };
         let dirt = Voxel { id: name_registry.find("dirt").unwrap(), data: 0 };
 
-        let test_chunk = VoxelArray::new(air);
+        let mut test_chunk = VoxelArray::new(air);
+        *test_chunk.get_voxel_at_index_mut(0) = dirt;
 
         voxel_system.load_chunk(test_chunk, 0, 0, 0).unwrap();
     }
@@ -52,5 +53,8 @@ impl Systems {
     }
 
     pub fn render(&mut self) {
+        if let Some(render_ref) = &mut self.core_systems.render {
+            render_ref.render(render::Camera::identity());
+        }
     }
 }
