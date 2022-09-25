@@ -7,6 +7,7 @@ use std::sync::mpsc;
 use std::thread;
 use env_logger;
 use std::time;
+use log::info;
 
 //Modules
 mod voxels;
@@ -76,6 +77,8 @@ fn run(event_loop_proxy: event_loop::EventLoopProxy) {
             last_instant = new_instant;
         }
     }
+
+    info!("Exiting gracefully.");
 
     event_loop_proxy.exit();
 }

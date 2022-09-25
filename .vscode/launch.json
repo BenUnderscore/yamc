@@ -12,7 +12,12 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "RUST_LOG",
+                    "value": "trace,wgpu_hal=error"
+                }
+            ],
             "console": "integratedTerminal",
             "preLaunchTask": "${defaultBuildTask}"
         }
