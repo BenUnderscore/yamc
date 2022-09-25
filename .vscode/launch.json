@@ -5,60 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "lldb",
+            "name": "(Windows) Launch yamc",
+            "type": "cppvsdbg",
             "request": "launch",
-            "name": "Debug executable 'yamc'",
-            "cargo": {
-                "args": [
-                    "build",
-                    "--bin=yamc",
-                    "--package=yamc"
-                ],
-                "filter": {
-                    "name": "yamc",
-                    "kind": "bin"
-                }
-            },
+            "program": "${workspaceRoot}/target/debug/yamc.exe",
             "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in library 'yamc-core'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--lib",
-                    "--package=yamc-core"
-                ],
-                "filter": {
-                    "name": "yamc-core",
-                    "kind": "lib"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug unit tests in executable 'yamc'",
-            "cargo": {
-                "args": [
-                    "test",
-                    "--no-run",
-                    "--bin=yamc",
-                    "--package=yamc"
-                ],
-                "filter": {
-                    "name": "yamc",
-                    "kind": "bin"
-                }
-            },
-            "args": [],
-            "cwd": "${workspaceFolder}"
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "${defaultBuildTask}"
         }
     ]
 }
